@@ -10,7 +10,7 @@ const port = 5000;
 mongoose
 
   .connect(
-    "mongodb+srv://all-pets-vet:T1cwqYQXNZVEWReB@cluster0.ch3bvmq.mongodb.net/all-messages"
+    ""
   )
 
   .then(() => console.log("connected to mongo db database"))
