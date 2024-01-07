@@ -5,7 +5,7 @@ const Message = require("../models/message");
 router.get("/", async (request, response) => {
   try {
     const message = await Message.find();
-    response.send("message");
+    response.send(message);
   } catch (error) {
     response
       .status(500)
@@ -24,9 +24,9 @@ router.post("/", async (request, response) => {
 
   try {
     savedMessage = await message.save();
-    res.status(201).send(savedMessage);
+    response.status(201).send(savedMessage);
   } catch (error) {
-    res.status(400).send("Error saving message");
+    response.status(400).send("Error saving message");
   }
 });
 
