@@ -24,7 +24,10 @@ router.post("/", async (request, response) => {
 
   try {
     savedMessage = await message.save();
+    res.status(201).send(savedMessage);
   } catch (error) {
-    console.error(error);
+    res.status(400).send("Error saving message");
   }
 });
+
+module.exports = router;
