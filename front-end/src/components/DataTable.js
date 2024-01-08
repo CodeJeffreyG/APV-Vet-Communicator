@@ -2,73 +2,84 @@ import React, { useState } from "react";
 import "./datatable.css";
 
 const DataTable = ({ data, onUpdate }) => {
-  const [editCell, setEditCell] = useState({
-    row: null,
-    column: null,
-    value: "",
-  });
+  const [editCell, setEditCell] = useState({ row: null, column: null });
+  const [inputValue, setInputValue] = useState("");
 
   const handleCellClick = (rowIndex, column, value) => {
-    setEditCell({ row: rowIndex, column, value });
+    setEditCell({ row: rowIndex, column });
+    setInputValue(value);
   };
 
   const handleInputChange = (e) => {
-    setEditCell((prev) => ({ ...prev, value: e.target.value }));
+    setInputValue(e.target.value);
   };
 
   const handleInputBlur = () => {
-    onUpdate(editCell.row, editCell.column, editCell.value);
-    setEditCell({ row: null, column: null, value: "" });
+    onUpdate(editCell.row, editCell.column, inputValue);
+    setEditCell({ row: null, column: null });
+  };
+
+  const getColumnClass = (column) => {
+    switch (column) {
+      case "date":
+        return "cell dateColumn";
+      case "patientName":
+        return "cell patientNameColumn";
+      case "message":
+        return "cell messageColumn";
+      case "phoneNumber":
+        return "cell phoneNumberColumn";
+      case "employee":
+        return "cell employeeColumn";
+      default:
+        return "cell";
+    }
   };
 
   const renderCell = (row, rowIndex, column) => {
-    const value = row[column];
     const isEditing = editCell.row === rowIndex && editCell.column === column;
-    const cellClass = isEditing ? "editing" : "";
+    const cellClass = getColumnClass(column);
 
     return (
-      <td
-        className={cellClass}
-        onClick={() => handleCellClick(rowIndex, column, value)}
+      <div
+        className={`${cellClass} ${isEditing ? "editing" : ""}`}
+        onClick={() => handleCellClick(rowIndex, column, row[column])}
       >
         {isEditing ? (
           <input
+            className="cellInput"
             type="text"
-            value={editCell.value}
+            value={inputValue}
             onChange={handleInputChange}
             onBlur={handleInputBlur}
             autoFocus
           />
         ) : (
-          value
+          row[column]
         )}
-      </td>
+      </div>
     );
   };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Patient Name</th>
-          <th>Message</th>
-          <th>Phone Number</th>
-          <th>Employee</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {renderCell(row, rowIndex, "date")}
-            {renderCell(row, rowIndex, "patientName")}
-            {renderCell(row, rowIndex, "message")}
-            {renderCell(row, rowIndex, "phoneNumber")}
-            {renderCell(row, rowIndex, "employee")}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="table-container">
+      <div className="row">
+        <div className="cell header dateColumn">Date</div>
+        <div className="cell header patientNameColumn">Patient Name</div>
+        <div className="cell header messageColumn">Message</div>
+        <div className="cell header phoneNumberColumn">Phone Number</div>
+        <div className="cell header employeeColumn">Employee</div>
+      </div>
+      {data.map((row, rowIndex) => (
+        <div key={rowIndex} className="row">
+          {renderCell(row, rowIndex, "date")}
+          {renderCell(row, rowIndex, "patientName")}
+          {renderCell(row, rowIndex, "message")}
+          {renderCell(row, rowIndex, "phoneNumber")}
+          {renderCell(row, rowIndex, "employee")}
+        </div>
+      ))}
+    </div>
   );
 };
 

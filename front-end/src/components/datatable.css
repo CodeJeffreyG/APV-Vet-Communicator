@@ -1,34 +1,72 @@
-table {
+/* Setting up the main table style. I want it to use the full width available */
+.table-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  border-collapse: collapse;
 }
 
+.header {
+  background-color: #007bff; /* Nice blue color for headers */
+  color: white; /* White text for better readability */
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  flex: 1; /* Each cell grows equally by default */
+  padding: 8px;
+  border: 1px solid black;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Custom flex settings for specific columns */
+.dateColumn {
+  flex: 1;
+} /* Smaller */
+.patientNameColumn {
+  flex: 2;
+}
+.messageColumn {
+  flex: 10;
+} /* Larger */
+.phoneNumberColumn {
+  flex: 2;
+}
+.employeeColumn {
+  flex: 2;
+}
+/* Styling for headers and cells to keep things consistent */
 th,
 td {
-  border: 1px solid black;
-  padding: 8px;
-  text-align: left;
-  padding: 10pz;
+  border: 1px solid black; /* Standard black border for clarity */
+  text-align: left; /* Aligning text to the left for readability */
+  width: 150px; /* Setting a fixed width, might tweak this later */
+  height: 50px; /* Fixed height to keep everything aligned */
+  overflow: hidden; /* No spillover, please */
+  white-space: nowrap; /* Keeping text in a single line */
+  text-overflow: ellipsis; /* Adding '...' for overflow text */
+  padding: 8px; /* Enough padding so text isn’t crammed against borders */
 }
 
-td.edditing {
-  padding: 0px;
-}
-
-td.edditing input[type="text"] {
-  padding: 10px;
-}
-
+/* Giving the header a different color for a nice contrast */
 thead {
-  background-color: #f2f2f2;
+  background-color: #f2f2f2; /* Light grey - easy on the eyes */
 }
 
-td input[type="text"] {
-  width: 100%;
-  height: 100%;
-  border: 1px solid #ccc; /* Adjust to match your design */
-  padding: 10px; /* Adjust to match your cell's padding */
-  margin: 0;
-  box-sizing: border-box; /* Include padding and border in the element's size */
-  background-color: transparent;
+/* Input field adjustments - want these to blend into the cells */
+.cellInput {
+  font-size: inherit; /* Keeping font consistent with the table */
+  font-family: inherit; /* Same font as the rest of the table */
+  width: 100%; /* Full width to match the cell */
+  height: 100%; /* Full height as well */
+  padding: 0px; /* No extra padding, the cell already has it */
+  margin: 0; /* No margin needed */
+  border: none; /* Don’t want any border for the input box */
+  box-sizing: border-box; /* Including padding and border in the box's size */
+  outline: none; /* Getting rid of the default focus outline */
 }
