@@ -58,6 +58,7 @@ const DataTable = ({ data, onUpdate }) => {
       if (nextRowIndex < data.length) {
         setEditCell({ row: nextRowIndex, column: columnNames[nextCellColumn] });
         setInputValue(data[nextRowIndex][columnNames[nextCellColumn]]);
+        onUpdate(editCell.row, editCell.column, inputValue);
       } else {
         setEditCell({ row: null, column: null });
       }
@@ -114,4 +115,3 @@ const DataTable = ({ data, onUpdate }) => {
 };
 
 export default DataTable;
-    
