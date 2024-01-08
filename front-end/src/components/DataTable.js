@@ -4,6 +4,13 @@ import "./datatable.css";
 const DataTable = ({ data, onUpdate }) => {
   const [editCell, setEditCell] = useState({ row: null, column: null });
   const [inputValue, setInputValue] = useState("");
+  const columnNames = [
+    "date",
+    "patientName",
+    "message",
+    "phoneNumber",
+    "employee",
+  ];
 
   const handleCellClick = (rowIndex, column, value) => {
     setEditCell({ row: rowIndex, column });
@@ -36,7 +43,29 @@ const DataTable = ({ data, onUpdate }) => {
     }
   };
 
+  const handleKeyDown = (e, rowIndex, columnIndex) => {
+    if (e.key === "Enter") {
+      onUpdate(editCell.row, editCell.column, inputValue);
+      setEditCell({ row: null, column: null });
+    } else if (e.key === "Tab") {
+      e.preventDefault(); // Prevent default tab behavior
+      const nextColumnIndex = columnIndex + 1;
+      const isLastColumn = nextColumnIndex >= columnNames.length;
+
+      const nextRowIndex = isLastColumn ? rowIndex + 1 : rowIndex;
+      const nextCellColumn = isLastColumn ? 0 : nextColumnIndex;
+
+      if (nextRowIndex < data.length) {
+        setEditCell({ row: nextRowIndex, column: columnNames[nextCellColumn] });
+        setInputValue(data[nextRowIndex][columnNames[nextCellColumn]]);
+      } else {
+        setEditCell({ row: null, column: null });
+      }
+    }
+  };
+
   const renderCell = (row, rowIndex, column) => {
+    const columnIndex = columnNames.indexOf(column);
     const isEditing = editCell.row === rowIndex && editCell.column === column;
     const cellClass = getColumnClass(column);
 
@@ -52,6 +81,7 @@ const DataTable = ({ data, onUpdate }) => {
             value={inputValue}
             onChange={handleInputChange}
             onBlur={handleInputBlur}
+            onKeyDown={(e) => handleKeyDown(e, rowIndex, columnIndex)}
             autoFocus
           />
         ) : (
@@ -72,11 +102,11 @@ const DataTable = ({ data, onUpdate }) => {
       </div>
       {data.map((row, rowIndex) => (
         <div key={rowIndex} className="row">
-          {renderCell(row, rowIndex, "date")}
-          {renderCell(row, rowIndex, "patientName")}
-          {renderCell(row, rowIndex, "message")}
-          {renderCell(row, rowIndex, "phoneNumber")}
-          {renderCell(row, rowIndex, "employee")}
+          {renderCell(row, rowIndex, "date", 0)}
+          {renderCell(row, rowIndex, "patientName", 1)}
+          {renderCell(row, rowIndex, "message", 2)}
+          {renderCell(row, rowIndex, "phoneNumber", 3)}
+          {renderCell(row, rowIndex, "employee", 4)}
         </div>
       ))}
     </div>
@@ -84,3 +114,4 @@ const DataTable = ({ data, onUpdate }) => {
 };
 
 export default DataTable;
+    

@@ -24,6 +24,11 @@
   text-overflow: ellipsis;
 }
 
+.editing {
+  border: 2.5px solid #007bff; /* Example: thicker blue border */
+  /* Adjust other properties as needed to maintain the cell size */
+}
+
 /* Custom flex settings for specific columns */
 .dateColumn {
   flex: 1;
@@ -32,13 +37,13 @@
   flex: 2;
 }
 .messageColumn {
-  flex: 10;
+  flex: 13;
 } /* Larger */
 .phoneNumberColumn {
   flex: 2;
 }
 .employeeColumn {
-  flex: 2;
+  flex: 1;
 }
 /* Styling for headers and cells to keep things consistent */
 th,
