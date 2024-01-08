@@ -1,0 +1,34 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+  padding: 10pz;
+}
+
+td.edditing {
+  padding: 0px;
+}
+
+td.edditing input[type="text"] {
+  padding: 10px;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+td input[type="text"] {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc; /* Adjust to match your design */
+  padding: 10px; /* Adjust to match your cell's padding */
+  margin: 0;
+  box-sizing: border-box; /* Include padding and border in the element's size */
+  background-color: transparent;
+}
