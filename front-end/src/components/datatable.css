@@ -16,7 +16,7 @@
 
 .cell {
   flex: 1; /* Each cell grows equally by default */
-  padding: 8px;
+  padding: 24px;
   border: 1px solid black;
   text-align: left;
   overflow: hidden;
@@ -29,9 +29,29 @@
   /* Adjust other properties as needed to maintain the cell size */
 }
 
+/* Style for the row used to add new entries */
+.add-row {
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+  display: flex;
+}
+
+.add-row:hover {
+  background-color: #e0e0e0; /* Highlight color on hover */
+}
+
+.add-cell {
+  text-align: center;
+  font-size: 20px; /* Size of the '+' symbol */
+}
+
+/* Ensure other cells in the add-row are empty and match the style */
+.add-row .cell {
+  /* Styles to match the rest of your cells */
+}
+
 /* Custom flex settings for specific columns */
 .dateColumn {
-  flex: 1;
+  flex: 2;
 } /* Smaller */
 .patientNameColumn {
   flex: 2;

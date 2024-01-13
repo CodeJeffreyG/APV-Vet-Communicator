@@ -1,9 +1,17 @@
 import React, { useState } from "react";
+import { formattedToday } from "../utils/date";
 import "./datatable.css";
 
-const DataTable = ({ data, onUpdate }) => {
+const DataTable = ({ data, setData, onUpdate }) => {
   const [editCell, setEditCell] = useState({ row: null, column: null });
   const [inputValue, setInputValue] = useState("");
+  const [newRowData, setNewRowData] = useState({
+    date: formattedToday,
+    patientName: "",
+    message: "",
+    phoneNumber: "",
+    employee: "",
+  });
   const columnNames = [
     "date",
     "patientName",
@@ -65,6 +73,10 @@ const DataTable = ({ data, onUpdate }) => {
     }
   };
 
+  const addNewRow = () => {
+    setData([...data, newRowData]);
+  };
+
   const renderCell = (row, rowIndex, column) => {
     const columnIndex = columnNames.indexOf(column);
     const isEditing = editCell.row === rowIndex && editCell.column === column;
@@ -110,6 +122,11 @@ const DataTable = ({ data, onUpdate }) => {
           {renderCell(row, rowIndex, "employee", 4)}
         </div>
       ))}
+      <div className="row add-row" onClick={addNewRow}>
+        <div onClick={addNewRow} className="cell add-cell">
+          +
+        </div>
+      </div>
     </div>
   );
 };

@@ -31,7 +31,7 @@ function App() {
     setRows(updatedRows);
   };
 
-  return <DataTable onUpdate={updateRowData} data={rows} />;
+  return <DataTable onUpdate={updateRowData} setData={setRows} data={rows} />;
 }
 
 export default App;
