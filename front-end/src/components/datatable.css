@@ -8,6 +8,11 @@
 .header {
   background-color: #007bff; /* Nice blue color for headers */
   color: white; /* White text for better readability */
+  text-align: center; /* Center-align the header text */
+  font-size: 16px; /* Uniform font size for headers */
+  font-family: Arial, sans-serif; /* Set a specific font-family for headers */
+  display: flex; /* Flex display to align items */
+  align-items: center; /* Align items vertically */
 }
 
 .row {
@@ -53,8 +58,11 @@
 
 .header select {
   /* Style your dropdown here */
+  color: white;
+  font-size: inherit;
+  font-style: inherit;
   border: none;
-  background-color: transparent;
+  background-color: #007bff;
   padding: 5px;
   /* Additional styles as needed */
 }

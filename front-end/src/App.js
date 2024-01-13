@@ -31,6 +31,24 @@ function App() {
         employee: "JD",
       },
     ],
+    receptionist: [
+      {
+        date: "2024-01-01",
+        patientName: "reception",
+        message: "Checkup",
+        phoneNumber: "555-1234",
+        employee: "JD",
+      },
+    ],
+    tech: [
+      {
+        date: "2024-01-01",
+        patientName: "tech",
+        message: "Checkup",
+        phoneNumber: "555-1234",
+        employee: "JD",
+      },
+    ],
   });
 
   const [rows, setRows] = useState(currentSelection["messages"]);

@@ -74,7 +74,7 @@ const DataTable = ({
         setInputValue(data[nextRowIndex][columnNames[nextCellColumn]]);
         onUpdate(editCell.row, editCell.column, inputValue);
       } else {
-        setEditCell({ row: null, column: null });
+        addNewRow();
       }
     }
   };
