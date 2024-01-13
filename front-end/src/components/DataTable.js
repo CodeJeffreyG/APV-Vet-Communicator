@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { formattedToday } from "../utils/date";
 import "./datatable.css";
 
-const DataTable = ({ data, setData, onUpdate }) => {
+const DataTable = ({
+  data,
+  onUpdate,
+  setData,
+  onSelectionChange,
+  currentSelection,
+}) => {
   const [editCell, setEditCell] = useState({ row: null, column: null });
   const [inputValue, setInputValue] = useState("");
   const [newRowData, setNewRowData] = useState({
@@ -74,7 +80,14 @@ const DataTable = ({ data, setData, onUpdate }) => {
   };
 
   const addNewRow = () => {
-    setData([...data, newRowData]);
+    const newRow = {
+      date: formattedToday,
+      patientName: "",
+      message: "",
+      phoneNumber: "",
+      employee: "",
+    };
+    setData((data) => [...data, newRow]);
   };
 
   const renderCell = (row, rowIndex, column) => {
@@ -109,7 +122,17 @@ const DataTable = ({ data, setData, onUpdate }) => {
       <div className="row">
         <div className="cell header dateColumn">Date</div>
         <div className="cell header patientNameColumn">Patient Name</div>
-        <div className="cell header messageColumn">Message</div>
+        <div className="cell header messageColumn">
+          <select value={currentSelection} onChange={onSelectionChange}>
+            <option value="messages">Messages</option>
+            <option value="medsHere">Meds Here</option>
+            <option value="medsOnline">Meds Online</option>
+            <option value="receptionist">Receptionist</option>
+            <option value="tech">Tech</option>
+            <div className="cell header phoneNumberColumn">Phone Number</div>
+            <div className="cell header employeeColumn">Employee</div>
+          </select>
+        </div>
         <div className="cell header phoneNumberColumn">Phone Number</div>
         <div className="cell header employeeColumn">Employee</div>
       </div>
