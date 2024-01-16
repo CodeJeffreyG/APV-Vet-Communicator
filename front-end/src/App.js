@@ -1,54 +1,24 @@
 import { useState, useEffect } from "react";
+
 import "./App.css";
 import DataTable from "./components/DataTable";
+import { formattedToday } from "./utils/date";
 
 function App() {
+  const initalData = {
+    date: formattedToday,
+    patientName: "",
+    message: "",
+    phoneNumber: "",
+    employee: "",
+    done: false,
+  };
   const [currentSelection, setCurrentSelection] = useState({
-    messages: [
-      {
-        date: "2024-01-01",
-        patientName: "Messages",
-        message: "Checkup",
-        phoneNumber: "555-1234",
-        employee: "JD",
-      },
-    ],
-    medsHere: [
-      {
-        date: "2024-01-01",
-        patientName: "medshere",
-        message: "Checkup",
-        phoneNumber: "555-1234",
-        employee: "JD",
-      },
-    ],
-    medsOnline: [
-      {
-        date: "2024-01-01",
-        patientName: "thisISMedsOnline",
-        message: "Checkup",
-        phoneNumber: "555-1234",
-        employee: "JD",
-      },
-    ],
-    receptionist: [
-      {
-        date: "2024-01-01",
-        patientName: "reception",
-        message: "Checkup",
-        phoneNumber: "555-1234",
-        employee: "JD",
-      },
-    ],
-    tech: [
-      {
-        date: "2024-01-01",
-        patientName: "tech",
-        message: "Checkup",
-        phoneNumber: "555-1234",
-        employee: "JD",
-      },
-    ],
+    messages: [initalData],
+    medsHere: [initalData],
+    medsOnline: [initalData],
+    receptionist: [initalData],
+    tech: [initalData],
   });
 
   const [rows, setRows] = useState(currentSelection["messages"]);

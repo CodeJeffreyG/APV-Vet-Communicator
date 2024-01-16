@@ -11,13 +11,7 @@ const DataTable = ({
 }) => {
   const [editCell, setEditCell] = useState({ row: null, column: null });
   const [inputValue, setInputValue] = useState("");
-  const [newRowData, setNewRowData] = useState({
-    date: formattedToday,
-    patientName: "",
-    message: "",
-    phoneNumber: "",
-    employee: "",
-  });
+  
   const columnNames = [
     "date",
     "patientName",
