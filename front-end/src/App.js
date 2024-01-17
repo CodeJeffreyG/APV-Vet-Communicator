@@ -5,20 +5,21 @@ import DataTable from "./components/DataTable";
 import { formattedToday } from "./utils/date";
 
 function App() {
-  const initalData = {
+  const initialData = () => ({
     date: formattedToday,
     patientName: "",
     message: "",
     phoneNumber: "",
     employee: "",
     done: false,
-  };
+  });
+
   const [currentSelection, setCurrentSelection] = useState({
-    messages: [initalData],
-    medsHere: [initalData],
-    medsOnline: [initalData],
-    receptionist: [initalData],
-    tech: [initalData],
+    messages: [initialData()],
+    medsHere: [initialData()],
+    medsOnline: [initialData()],
+    receptionist: [initialData()],
+    tech: [initialData()],
   });
 
   const [rows, setRows] = useState(currentSelection["messages"]);

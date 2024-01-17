@@ -11,7 +11,7 @@ const DataTable = ({
 }) => {
   const [editCell, setEditCell] = useState({ row: null, column: null });
   const [inputValue, setInputValue] = useState("");
-  
+
   const columnNames = [
     "date",
     "patientName",
@@ -51,23 +51,41 @@ const DataTable = ({
     }
   };
 
+  const getColumnCount = (dataset) => {
+    switch (dataset) {
+      case "receptionist":
+      case "tech":
+        return 3; //  3 columns for receptionist and tech
+      default:
+        return 5; // Default number of columns for other datasets
+    }
+  };
+
   const handleKeyDown = (e, rowIndex, columnIndex) => {
     if (e.key === "Enter") {
       onUpdate(editCell.row, editCell.column, inputValue);
       setEditCell({ row: null, column: null });
     } else if (e.key === "Tab") {
       e.preventDefault(); // Prevent default tab behavior
-      const nextColumnIndex = columnIndex + 1;
-      const isLastColumn = nextColumnIndex >= columnNames.length;
 
+      const columnCount = getColumnCount(currentSelection); // Get the number of columns based on the current dataset
+      let nextColumnIndex = columnIndex + 1;
+
+      // Skip the date column (assuming date column index is 0)
+      if (nextColumnIndex === 0) {
+        nextColumnIndex++;
+      }
+
+      const isLastColumn = nextColumnIndex >= columnCount; // Check if it's the last column based on columnCount
       const nextRowIndex = isLastColumn ? rowIndex + 1 : rowIndex;
-      const nextCellColumn = isLastColumn ? 0 : nextColumnIndex;
+      const nextCellColumn = isLastColumn ? 1 : nextColumnIndex; // Start with 1 to skip the date column for new rows
 
       if (nextRowIndex < data.length) {
+        // Move to the next cell in the current or next row
         setEditCell({ row: nextRowIndex, column: columnNames[nextCellColumn] });
         setInputValue(data[nextRowIndex][columnNames[nextCellColumn]]);
-        onUpdate(editCell.row, editCell.column, inputValue);
       } else {
+        // Add a new row if it's the last cell in the last row
         addNewRow();
       }
     }
@@ -111,41 +129,123 @@ const DataTable = ({
     );
   };
 
-  return (
-    <div className="table-container">
-      <div className="row">
-        <div className="cell header dateColumn">Date</div>
-        <div className="cell header patientNameColumn">Patient Name</div>
-        <div className="cell header messageColumn">
-          <select value={currentSelection} onChange={onSelectionChange}>
-            <option value="messages">Messages</option>
-            <option value="medsHere">Meds Here</option>
-            <option value="medsOnline">Meds Online</option>
-            <option value="receptionist">Receptionist</option>
-            <option value="tech">Tech</option>
+  const renderRow = () => {
+    if (currentSelection === "messages") {
+      return (
+        <div className="table-container">
+          <div className="row">
+            <div className="cell header dateColumn">Date</div>
+            <div className="cell header patientNameColumn">Patient Name</div>
+            <div className="cell header messageColumn">
+              <select value={currentSelection} onChange={onSelectionChange}>
+                <option value="medsHere">Messages</option>
+                <option value="medsHere">Meds Here</option>
+                <option value="medsOnline">Meds Online</option>
+                <option value="receptionist">Receptionist</option>
+                <option value="tech">Tech</option>
+                <div className="cell header phoneNumberColumn">
+                  Phone Number
+                </div>
+                <div className="cell header employeeColumn">Employee</div>
+              </select>
+            </div>
             <div className="cell header phoneNumberColumn">Phone Number</div>
             <div className="cell header employeeColumn">Employee</div>
-          </select>
+          </div>
+          {data.map((row, rowIndex) => (
+            <div key={rowIndex} className="row">
+              {renderCell(row, rowIndex, "date", 0)}
+              {renderCell(row, rowIndex, "patientName", 1)}
+              {renderCell(row, rowIndex, "message", 2)}
+              {renderCell(row, rowIndex, "phoneNumber", 3)}
+              {renderCell(row, rowIndex, "employee", 4)}
+            </div>
+          ))}
+          <div className="row add-row" onClick={addNewRow}>
+            <div onClick={addNewRow} className="cell add-cell">
+              +
+            </div>
+          </div>
         </div>
-        <div className="cell header phoneNumberColumn">Phone Number</div>
-        <div className="cell header employeeColumn">Employee</div>
-      </div>
-      {data.map((row, rowIndex) => (
-        <div key={rowIndex} className="row">
-          {renderCell(row, rowIndex, "date", 0)}
-          {renderCell(row, rowIndex, "patientName", 1)}
-          {renderCell(row, rowIndex, "message", 2)}
-          {renderCell(row, rowIndex, "phoneNumber", 3)}
-          {renderCell(row, rowIndex, "employee", 4)}
+      );
+    }
+    if (currentSelection === "receptionist" || currentSelection === "tech") {
+      return (
+        <div className="table-container">
+          <div className="row">
+            <div className="cell header dateColumn">Date</div>
+            <div className="cell header patientNameColumn">Employee: </div>
+            <div className="cell header messageColumn">
+              <select value={currentSelection} onChange={onSelectionChange}>
+                <option value="messages">Messages</option>
+                <option value="medsHere">Meds Here</option>
+                <option value="medsOnline">Meds Online</option>
+                <option value="receptionist">Receptionist</option>
+                <option value="tech">Tech</option>
+                <div className="cell header phoneNumberColumn">
+                  Phone Number
+                </div>
+                <div className="cell header employeeColumn">Employee</div>
+              </select>
+            </div>
+          </div>
+          {data.map((row, rowIndex) => (
+            <div key={rowIndex} className="row">
+              {renderCell(row, rowIndex, "date", 0)}
+              {renderCell(row, rowIndex, "patientName", 1)}
+              {renderCell(row, rowIndex, "message", 2)}
+            </div>
+          ))}
+          <div className="row add-row" onClick={addNewRow}>
+            <div onClick={addNewRow} className="cell add-cell">
+              +
+            </div>
+          </div>
         </div>
-      ))}
-      <div className="row add-row" onClick={addNewRow}>
-        <div onClick={addNewRow} className="cell add-cell">
-          +
+      );
+    }
+    if (currentSelection === "medsHere" || currentSelection == "medsOnline") {
+      return (
+        <div className="table-container">
+          <div className="row">
+            <div className="cell header dateColumn">Date</div>
+            <div className="cell header patientNameColumn">Patient Name</div>
+            <div className="cell header messageColumn">
+              <select value={currentSelection} onChange={onSelectionChange}>
+                <option value="messages">Messages</option>
+                <option value="medsHere">Meds Here</option>
+                <option value="medsOnline">Meds Online</option>
+                <option value="receptionist">Receptionist</option>
+                <option value="tech">Tech</option>
+                <div className="cell header phoneNumberColumn">
+                  Phone Number
+                </div>
+                <div className="cell header employeeColumn">Employee</div>
+              </select>
+            </div>
+            <div className="cell header phoneNumberColumn">Today?</div>
+            <div className="cell header employeeColumn">Employee</div>
+          </div>
+          {data.map((row, rowIndex) => (
+            <div key={rowIndex} className="row">
+              {renderCell(row, rowIndex, "date", 0)}
+              {renderCell(row, rowIndex, "patientName", 1)}
+              {renderCell(row, rowIndex, "message", 2)}
+              {renderCell(row, rowIndex, "phoneNumber", 3)}
+              {renderCell(row, rowIndex, "employee", 4)}
+            </div>
+          ))}
+          <div className="row add-row" onClick={addNewRow}>
+            <div onClick={addNewRow} className="cell add-cell">
+              +
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  );
+      );
+    }
+  };
+
+  return <>{renderRow()}</>;
 };
 
 export default DataTable;
