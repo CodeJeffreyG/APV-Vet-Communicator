@@ -194,6 +194,7 @@ const DataTable = ({
             <div key={rowIndex} className="row">
               {renderCell(row, rowIndex, "date", 0)}
               {renderCell(row, rowIndex, "patientName", 1)}
+              
               {renderCell(row, rowIndex, "message", 2)}
               {renderCell(row, rowIndex, "done", 3)}
             </div>
