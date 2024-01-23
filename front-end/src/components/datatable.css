@@ -83,6 +83,9 @@
 .employeeColumn {
   flex: 1;
 }
+.doneColumn {
+  flex: 1;
+}
 /* Styling for headers and cells to keep things consistent */
 th,
 td {

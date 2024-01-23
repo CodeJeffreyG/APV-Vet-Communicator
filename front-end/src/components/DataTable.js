@@ -188,12 +188,14 @@ const DataTable = ({
                 <div className="cell header employeeColumn">Employee</div>
               </select>
             </div>
+            <div className="cell header doneColumn">Done:</div>
           </div>
           {data.map((row, rowIndex) => (
             <div key={rowIndex} className="row">
               {renderCell(row, rowIndex, "date", 0)}
               {renderCell(row, rowIndex, "patientName", 1)}
               {renderCell(row, rowIndex, "message", 2)}
+              {renderCell(row, rowIndex, "done", 3)}
             </div>
           ))}
           <div className="row add-row" onClick={addNewRow}>
